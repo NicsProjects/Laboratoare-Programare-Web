@@ -1,4 +1,3 @@
-// Salut personalizat în funcție de ora zilei
 window.addEventListener('DOMContentLoaded', () => {
     const headerParagraph = document.querySelector('header p');
     if (headerParagraph) {
@@ -14,14 +13,25 @@ window.addEventListener('DOMContentLoaded', () => {
         headerParagraph.textContent = greeting;
     }
 });
-function submitForm() {
+
+
+const form = document.querySelector('form');
+form.addEventListener('submit', function(event) {
+ event.preventDefault(); // Opreste reload-ul paginii
     const nume = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const mesaj = document.getElementById("message").value;
-    console.log("Nume:", nume);
-    console.log("Email:", email);
-    console.log("Mesaj:", mesaj);
-    console.warn("Goodbye World!");
-    // Previne trimiterea formularului
-    return false;
-}
+
+    if (nume.trim().length < 2 || !email.includes('@') || mesaj.trim().length) {
+        alert("Te rog completează toate câmpurile înainte de a trimite mesajul.");
+        return;
+    }
+
+    if (nume && email && mesaj) {
+        alert("Mesajul a fost trimis cu succes!");
+        form.reset(); // Reseteaza formularul 
+    }else {
+        alert("Te rog completează toate câmpurile înainte de a trimite mesajul.");
+        <p id="form-feedback"></p>
+    }
+});
