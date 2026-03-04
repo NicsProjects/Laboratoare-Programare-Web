@@ -1,3 +1,48 @@
+/* Formular de contact */
+footer form {
+  background: #fff;
+  padding: 1.5rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(42,157,143,0.10);
+  max-width: 400px;
+  margin: 2rem auto 0 auto;
+}
+footer .form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+footer label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  color: var(--primary-color);
+}
+footer input,
+footer textarea {
+  padding: 0.5rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #f9f9f9;
+  color: var(--text-color);
+  resize: vertical;
+}
+footer button[type="submit"] {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(42,157,143,0.08);
+}
+footer button[type="submit"]:hover {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+}
 /* 1. Resetare și box-sizing global */
 * {
   box-sizing: border-box;
