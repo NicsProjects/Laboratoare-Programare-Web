@@ -18,11 +18,14 @@ window.addEventListener('DOMContentLoaded', () => {
 const form = document.querySelector('form');
 form.addEventListener('submit', function(event) {
  event.preventDefault(); // Opreste reload-ul paginii
+    const feedback_Text2 = document.getElementById("form-feedback2");
+    
     const nume = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const mesaj = document.getElementById("message").value;
 
-    if (nume.trim().length < 2 || !email.includes('@') || mesaj.trim().length) {
+    if (nume.trim().length < 2 || !email.includes('@') || !mesaj.trim().length) {
+        feedback_Text2.textContent = "Te rog completează toate câmpurile înainte de a trimite mesajul.";
         alert("Te rog completează toate câmpurile înainte de a trimite mesajul.");
         return;
     }
@@ -32,6 +35,6 @@ form.addEventListener('submit', function(event) {
         form.reset(); // Reseteaza formularul 
     }else {
         alert("Te rog completează toate câmpurile înainte de a trimite mesajul.");
-        <p id="form-feedback"></p>
+        
     }
 });
