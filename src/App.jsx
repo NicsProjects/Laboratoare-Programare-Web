@@ -2,7 +2,7 @@ function App() {
   return (
     <div>
     <h1>Dashboard</h1>
-    <p>Numele vostru </p>
+    <p>Nechifor Nicolae-Dan</p>
     </div>
   );
 }
