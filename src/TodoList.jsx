@@ -19,7 +19,11 @@ function TodoList() {
         placeholder="Adauga un task..."
       />
       <button onClick={handleAdd}>Adauga</button>
-      {/* TODO: Afisati lista de todos cu map() */}
+      <ul>
+        {todos.map(function(todo, index) {
+          return <li key={index}>{todo}</li>;
+        })}
+      </ul>
     </div>
   );
 }
