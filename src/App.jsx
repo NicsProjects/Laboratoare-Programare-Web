@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Card from './Card';
 import QuickNote from './QuickNote';
+import TodoList from './TodoList';
 
 
 function App() {
@@ -27,7 +28,8 @@ function App() {
       {projects.map(function (item, index) {
         return <Card key={index} title={item.title} description={item.description} />;
       })}
-      <QuickNote /> 
+      <QuickNote />
+      <TodoList />
     </div>
   );
 }
