@@ -9,6 +9,7 @@ function QuickNote() {
       <input
         value={note}
         onChange={(e) => setNote(e.target.value)}
+        placeholder="Adauga o notita..."
       />
       <p>Ai scris: {note}</p>
     </div>
