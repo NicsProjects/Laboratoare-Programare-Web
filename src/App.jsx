@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import Card from './Card';
+import QuickNote from './QuickNote';
+
 
 function App() {
   const [countxxx, setCount] = useState(0);
@@ -25,6 +27,7 @@ function App() {
       {projects.map(function (item, index) {
         return <Card key={index} title={item.title} description={item.description} />;
       })}
+      <QuickNote /> 
     </div>
   );
 }
