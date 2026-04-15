@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import Card from './Card';
 
 function ProjectList() {
         const [projects, setProjects] = useState([]);
+        const [search, setSearch] = useState('');
         const [loading, setLoading] = useState(true);
         const [error, setError] = useState(null)
 
@@ -31,10 +33,20 @@ function ProjectList() {
         return <p>Se incarca...</p>;
     }
 
+    const filteredProjects = projects.filter(function(project) {
+        return project.title.toLowerCase().includes(search.toLowerCase());
+    });
+
     return (
         <div>
             <h3>Proiecte</h3>
-            {projects.map(project => (
+            <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Cauta proiect..."
+            />
+            {filteredProjects.map(project => (
                 <Card key={project.id} title={project.title} description={project.description} />
             ))}
         </div>
