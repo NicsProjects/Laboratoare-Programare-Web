@@ -15,7 +15,7 @@ function ProjectList() {
                 setLoading(false);
             })
             .catch(function(err) {
-                setError('Eroare la incarcarea datelor');
+                setError(err.message);
                 setLoading(false);
             });
 
@@ -25,6 +25,7 @@ function ProjectList() {
     if (error) {
         return <p>{error}</p>;
     }
+    
     
     if (loading) {
         return <p>Se incarca...</p>;
