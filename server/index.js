@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
+app.use(express.json());
+
 // Date (temporar in memorie, vom folosi MongoDB mai tarziu)
 const projects = [
   { id: 1, title: "Pagina Personala", tech: "HTML, CSS", done: true },
@@ -18,6 +20,19 @@ app.get('/', function(req, res) {
 // GET /api/projects - returneaza toate proiectele
 app.get('/api/projects', function(req, res) {
   res.json(projects);
+});
+
+// POST /api/projects - adauga un proiect nou
+app.post('/api/projects', function(req, res) {
+  const newProject = {
+    id: projects.length + 1,
+    title: req.body.title,
+    tech: req.body.tech,
+    done: req.body.done || false,
+  };
+
+  projects.push(newProject);
+  res.status(201).json(newProject);
 });
 
 // GET /api/projects/:id - returneaza un singur proiect dupa id
