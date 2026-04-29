@@ -20,6 +20,27 @@ app.get('/api/projects', function(req, res) {
   res.json(projects);
 });
 
+// GET /api/projects/:id - returneaza un singur proiect dupa id
+app.get('/api/projects/:id', function(req, res) {
+  const projectId = parseInt(req.params.id, 10);
+  const project = projects.find(p => p.id === projectId);
+
+  if (!project) {
+    return res.status(404).json({ error: 'Not found' });
+  }
+
+  res.json(project);
+});
+
+// GET /api/stats - returneaza statistici despre proiecte
+app.get('/api/stats', function(req, res) {
+  const total = projects.length;
+  const done = projects.filter(p => p.done).length;
+  const pending = projects.filter(p => !p.done).length;
+
+  res.json({ total, done, pending });
+});
+
 // Porneste serverul
 app.listen(PORT, function() {
   console.log('Server pornit pe http://localhost:' + PORT);
