@@ -21,13 +21,13 @@ app.get('/', function(req, res) {
 });
 
 app.get('/api/projects', async function(req, res) {
-  try {
-    const projects = await Project.find();
-    if (projects) {
-      res.json(projects);
-    } else {
-      res.status(404).json({ error: 'Not found' });
-    }
+try {
+const projects = await Project.find();
+res.json(projects);
+} catch (err) {
+res.status(500).json({ error: 'Eroare ' + err });
+}
+});
 
   } catch (err) {
     res.status(500).json({ error: 'Eroare ' + err });
