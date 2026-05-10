@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
 const Project = require('./models/Project');
@@ -14,6 +15,7 @@ console.error('Eroare conectare MongoDB:', err);
 const PORT = 3000;
 
 app.use(express.json());
+app.use(cors());
 
 // Prima ruta: raspunde la GET /
 app.get('/', function(req, res) {
