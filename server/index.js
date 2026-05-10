@@ -45,29 +45,30 @@ res.status(400).json({ error: err.message });
 });
 
 // GET /api/projects/:id - returneaza un singur proiect dupa id
-// app.get('/api/projects/:id', function(req, res) {
-//   const projectId = parseInt(req.params.id, 10);
-//   const project = projects.find(p => p.id === projectId);
-
-//   if (!project) {
-//     return res.status(404).json({ error: 'Not found' });
-//   }
-
-//   res.json(project);
-// });
+app.get('/api/projects/:id', async function(req, res) {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (!project) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+    res.json(project);
+  } catch (err) {
+    res.status(500).json({ error: 'Eroare ' + err });
+  }
+});
 
 // DELETE /api/projects/:id - sterge un proiect dupa id
-// app.delete('/api/projects/:id', function(req, res) {
-//   const projectId = parseInt(req.params.id, 10);
-//   const index = projects.findIndex(p => p.id === projectId);
-
-//   if (index === -1) {
-//     return res.status(404).json({ error: 'Not found' });
-//   }
-
-//   projects.splice(index, 1);
-//   res.json({ message: 'Deleted' });
-// });
+app.delete('/api/projects/:id', async function(req, res) {
+  try {
+    const deletedProject = await Project.findByIdAndDelete(req.params.id);
+    if (!deletedProject) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+    res.json({ message: 'Deleted' });
+  } catch (err) {
+    res.status(500).json({ error: 'Eroare ' + err });
+  }
+});
 
 // PUT /api/projects/:id - actualizeaza un proiect existent
 // app.put('/api/projects/:id', function(req, res) {
