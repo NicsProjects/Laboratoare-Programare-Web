@@ -43,6 +43,17 @@ function ProjectList() {
         }
     }
 
+    async function handleDelete(id) {
+        try {
+            await fetch(`/api/projects/${id}`, {
+                method: 'DELETE',
+            });
+            setProjects(projects.filter(p => p._id !== id));
+        } catch (err) {
+            console.error('Eroare ștergere:', err);
+        }
+    }
+
     if (error) {
         return <p>{error}</p>;
     }
@@ -66,7 +77,7 @@ function ProjectList() {
     const unfinishedProjects = projects.filter(function(project) {
         return !project.done;
     }).map(function(project) {
-                        return <li key={project.id}>{project.title}</li>;
+                        return <li key={project._id}>{project.title}</li>;
                     });
 
     return (
@@ -96,7 +107,12 @@ function ProjectList() {
                 placeholder="Cauta proiect..."
             />
             {filteredProjects.map(project => (
-                <Card key={project._id} title={project.title} description={project.tech} />
+                <Card 
+                    key={project._id} 
+                    title={project.title} 
+                    description={project.tech}
+                    onDelete={() => handleDelete(project._id)}
+                />
             ))}
             <div>
                 <h4>Statistici</h4>
