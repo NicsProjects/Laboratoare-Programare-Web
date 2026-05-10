@@ -8,12 +8,12 @@ function ProjectList() {
         const [error, setError] = useState(null)
 
         useEffect(function() {
-            fetch('/data/projects.json')
+            fetch('/api/projects')
                 .then(function(response) {
                     return response.json();
             })
             .then(function(data) {
-                setProjects(data.projects);
+                setProjects(data);
                 setLoading(false);
             })
             .catch(function(err) {
@@ -60,7 +60,7 @@ function ProjectList() {
                 placeholder="Cauta proiect..."
             />
             {filteredProjects.map(project => (
-                <Card key={project.id} title={project.title} description={project.description} />
+                <Card key={project._id} title={project.title} description={project.tech} />
             ))}
             <div>
                 <h4>Statistici</h4>
