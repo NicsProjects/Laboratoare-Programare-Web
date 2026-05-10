@@ -73,3 +73,4 @@ function ProjectList() {
     );
 }
 export default ProjectList;
+//Totul bine pana aici, dar in loc de project.id ar trebui sa fie project._id pentru ca folosim MongoDB care foloseste _id ca identificator unic.
