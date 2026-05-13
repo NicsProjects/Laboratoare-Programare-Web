@@ -8,6 +8,9 @@ function ProjectList() {
         const [error, setError] = useState(null)
         const [title, setTitle] = useState('');
         const [tech, setTech] = useState('');
+        const [editingId, setEditingId] = useState(null);
+        const [editTitle, setEditTitle] = useState('');
+        const [editTech, setEditTech] = useState('');
 
         useEffect(function() {
             fetch('/api/projects')
@@ -73,6 +76,34 @@ function ProjectList() {
         }
     }
 
+    function handleEdit(project) {
+        setEditingId(project._id);
+        setEditTitle(project.title);
+        setEditTech(project.tech);
+    }
+//Buton de edit pe card: onClick={() => handleEdit(project)}
+    function handleCancelEdit() {
+        setEditingId(null);
+        setEditTitle('');
+        setEditTech('');
+    }
+
+    async function handleSaveEdit(e) {
+        e.preventDefault();
+        try {
+            const response = await fetch(`/api/projects/${editingId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: editTitle, tech: editTech }),
+            });
+            const updatedProject = await response.json();
+            setProjects(projects.map(p => p._id === editingId ? updatedProject : p));
+            handleCancelEdit();
+        } catch (err) {
+            console.error('Eroare salvare edit:', err);
+        }
+    }
+
     if (error) {
         return <p>{error}</p>;
     }
@@ -126,14 +157,36 @@ function ProjectList() {
                 placeholder="Cauta proiect..."
             />
             {filteredProjects.map(project => (
-                <Card 
-                    key={project._id} 
-                    title={project.title} 
-                    description={project.tech}
-                    done={project.done}
-                    onDelete={() => handleDelete(project._id)}
-                    onToggle={() => handleToggle(project._id, project.done)}
-                />
+                project._id === editingId ? (
+                    <form key={project._id} onSubmit={handleSaveEdit}>
+                        <input
+                            type="text"
+                            value={editTitle}
+                            onChange={(e) => setEditTitle(e.target.value)}
+                            placeholder="Titlu proiect..."
+                            required
+                        />
+                        <input
+                            type="text"
+                            value={editTech}
+                            onChange={(e) => setEditTech(e.target.value)}
+                            placeholder="Tehnologii..."
+                            required
+                        />
+                        <button type="submit">Salvează</button>
+                        <button type="button" onClick={handleCancelEdit}>Anulează</button>
+                    </form>
+                ) : (
+                    <Card 
+                        key={project._id} 
+                        title={project.title} 
+                        description={project.tech}
+                        done={project.done}
+                        onDelete={() => handleDelete(project._id)}
+                        onToggle={() => handleToggle(project._id, project.done)}
+                        onEdit={() => handleEdit(project)}
+                    />
+                )
             ))}
             <div>
                 <h4>Statistici</h4>
