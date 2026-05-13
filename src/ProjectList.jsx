@@ -53,6 +53,25 @@ function ProjectList() {
             console.error('Eroare ștergere:', err);
         }
     }
+//adăugați în ProjectList:
+//• Funcție async handleToggle(id, currentDone) care:
+//Face fetch PUT către 'http://localhost:3000/api/projects/' + id cu body: { done: !currentDone }
+//Parsează răspunsul: const updatedProject = await response.json()
+//Actualizează state-ul: setProjects(projects.map(p => p._id === id ? updatedProject : p))
+//• Buton pe card: onClick={() => handleToggle(project._id, project.done)}
+    async function handleToggle(id, currentDone) {
+        try {
+            const response = await fetch(`/api/projects/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ done: !currentDone }),
+            });
+            const updatedProject = await response.json();
+            setProjects(projects.map(p => p._id === id ? updatedProject : p));
+        } catch (err) {
+            console.error('Eroare toggle:', err);
+        }
+    }
 
     if (error) {
         return <p>{error}</p>;
@@ -111,7 +130,9 @@ function ProjectList() {
                     key={project._id} 
                     title={project.title} 
                     description={project.tech}
+                    done={project.done}
                     onDelete={() => handleDelete(project._id)}
+                    onToggle={() => handleToggle(project._id, project.done)}
                 />
             ))}
             <div>

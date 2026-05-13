@@ -73,20 +73,19 @@ app.delete('/api/projects/:id', async function(req, res) {
 });
 
 // PUT /api/projects/:id - actualizeaza un proiect existent
-// app.put('/api/projects/:id', function(req, res) {
-//   const projectId = parseInt(req.params.id, 10);
-//   const project = projects.find(p => p.id === projectId);
-
-//   if (!project) {
-//     return res.status(404).json({ error: 'Not found' });
-//   }
-
-//   if (req.body.title !== undefined) project.title = req.body.title;
-//   if (req.body.tech !== undefined) project.tech = req.body.tech;
-//   if (req.body.done !== undefined) project.done = req.body.done;
-
-//   res.json(project);
-// });
+app.put('/api/projects/:id', async function(req, res) {
+  try {
+    const updated = await Project.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updated) return res.status(404).json({ error: 'Not found' });
+    res.json(updated);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
 
 // GET /api/stats - returneaza statistici despre proiecte
 // app.get('/api/stats', function(req, res) {
