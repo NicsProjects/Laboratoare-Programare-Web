@@ -88,13 +88,15 @@ app.put('/api/projects/:id', async function(req, res) {
 });
 
 // GET /api/stats - returneaza statistici despre proiecte
-// app.get('/api/stats', function(req, res) {
-//   const total = projects.length;
-//   const done = projects.filter(p => p.done).length;
-//   const pending = projects.filter(p => !p.done).length;
-
-//   res.json({ total, done, pending });
-// });
+app.get('/api/stats', async function(req, res) {
+  try {
+    const total = await Project.countDocuments();
+    const done = await Project.countDocuments({ done: true });
+    res.json({ total: total, done: done, inProgress: total - done });
+  } catch (err) {
+    res.status(500).json({ error: 'Eroare server: ' + err });
+  }
+});
 
 // // Porneste serverul
 app.listen(PORT, function() {
