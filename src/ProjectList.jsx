@@ -11,6 +11,8 @@ function ProjectList() {
         const [editingId, setEditingId] = useState(null);
         const [editTitle, setEditTitle] = useState('');
         const [editTech, setEditTech] = useState('');
+        const [statusFilter, setStatusFilter] = useState('all');
+        const [sortBy, setSortBy] = useState('date');
 
         useEffect(function() {
             fetch('/api/projects')
@@ -117,9 +119,22 @@ function ProjectList() {
         return <p>Se incarca...</p>;
     }
 
-    const filteredProjects = projects.filter(function(project) {
-        return project.title.toLowerCase().includes(search.toLowerCase());
-    });
+    const filteredProjects = projects
+        .filter(function(project) {
+            const matchesSearch = project.title.toLowerCase().includes(search.toLowerCase());
+            const matchesStatus =
+                statusFilter === 'all' ||
+                (statusFilter === 'done' && project.done) ||
+                (statusFilter === 'in-progress' && !project.done);
+            return matchesSearch && matchesStatus;
+        })
+        .sort(function(a, b) {
+            if (sortBy === 'title') {
+                return a.title.localeCompare(b.title);
+            }
+            // sortBy === 'date'
+            return a._id.localeCompare(b._id);
+        });
 
     const totalProjects = projects.length;
     const completedProjects = projects.filter(function(project) {
@@ -154,12 +169,23 @@ function ProjectList() {
                 />
                 <button type="submit">Adauga Proiect</button>
             </form>
-            <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Cauta proiect..."
-            />
+            <div className="project-filters">
+                <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Cauta proiect..."
+                />
+                <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                    <option value="all">Toate</option>
+                    <option value="done">Finalizate</option>
+                    <option value="in-progress">În lucru</option>
+                </select>
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                    <option value="date">Sortare după dată</option>
+                    <option value="title">Sortare după titlu</option>
+                </select>
+            </div>
             {filteredProjects.map(project => (
                 project._id === editingId ? (
                     <form key={project._id} onSubmit={handleSaveEdit}>
