@@ -47,6 +47,10 @@ function ProjectList() {
     }
 
     async function handleDelete(id) {
+        if (!window.confirm('Sigur doriti sa stergeti acest proiect?')) {
+            return;
+        }
+
         try {
             await fetch(`/api/projects/${id}`, {
                 method: 'DELETE',
