@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Card from './Card';
+import { API_BASE } from './api';
 
 function ProjectList() {
         const [projects, setProjects] = useState([]);
@@ -15,7 +16,7 @@ function ProjectList() {
         const [sortBy, setSortBy] = useState('date');
 
         useEffect(function() {
-            fetch('/api/projects')
+            fetch(`${API_BASE}/api/projects`)
                 .then(function(response) {
                     return response.json();
             })
@@ -34,7 +35,7 @@ function ProjectList() {
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            const response = await fetch('/api/projects', {
+            const response = await fetch(`${API_BASE}/api/projects`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: title, tech: tech }),
@@ -54,7 +55,7 @@ function ProjectList() {
         }
 
         try {
-            await fetch(`/api/projects/${id}`, {
+            await fetch(`${API_BASE}/api/projects/${id}`, {
                 method: 'DELETE',
             });
             setProjects(projects.filter(p => p._id !== id));
@@ -70,7 +71,7 @@ function ProjectList() {
 //• Buton pe card: onClick={() => handleToggle(project._id, project.done)}
     async function handleToggle(id, currentDone) {
         try {
-            const response = await fetch(`/api/projects/${id}`, {
+            const response = await fetch(`${API_BASE}/api/projects/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ done: !currentDone }),
@@ -97,7 +98,7 @@ function ProjectList() {
     async function handleSaveEdit(e) {
         e.preventDefault();
         try {
-            const response = await fetch(`/api/projects/${editingId}`, {
+            const response = await fetch(`${API_BASE}/api/projects/${editingId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: editTitle, tech: editTech }),

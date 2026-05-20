@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_BASE } from '../api';
 
 function Home() {
   const [stats, setStats] = useState(null);
@@ -6,7 +7,7 @@ function Home() {
   const [error, setError] = useState(null);
 
   useEffect(function() {
-    fetch('http://localhost:3000/api/stats')
+    fetch(`${API_BASE}/api/stats`)
       .then(function(response) {
         if (!response.ok) {
           throw new Error('Eroare la incarcare: ' + response.status);
