@@ -6,7 +6,7 @@ function Home() {
   const [error, setError] = useState(null);
 
   useEffect(function() {
-    fetch('/api/stats')
+    fetch('http://localhost:3000/api/stats')
       .then(function(response) {
         if (!response.ok) {
           throw new Error('Eroare la incarcare: ' + response.status);
